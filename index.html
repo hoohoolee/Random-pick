@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤 인원 뽑기</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .container { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
+        h1 { color: #333; font-size: 1.5rem; }
+        textarea { width: 100%; height: 100px; border: 1px solid #ddd; border-radius: 10px; padding: 10px; box-sizing: border-box; font-size: 1rem; margin-bottom: 10px; resize: none; }
+        button { background-color: #007aff; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%; transition: transform 0.1s; }
+        button:active { transform: scale(0.98); }
+        #result { margin-top: 20px; font-size: 1.5rem; font-weight: bold; color: #ff3b30; min-height: 2rem; }
+        .hint { font-size: 0.8rem; color: #888; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 랜덤 인원 뽑기</h1>
+        <textarea id="names" placeholder="이름들을 쉼표(,)나 엔터로 구분해서 입력해주세요."></textarea>
+        <p class="hint">예: 철수, 영희, 민수</p>
+        <button onclick="pickWinner()">추첨하기!</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function pickWinner() {
+            const input = document.getElementById('names').value;
+            const nameList = input.split(/[,\n]/).map(name => name.trim()).filter(name => name !== "");
+            const resultDiv = document.getElementById('result');
+
+            if (nameList.length === 0) {
+                resultDiv.innerText = "이름을 입력해주세요!";
+                return;
+            }
+
+            resultDiv.innerText = "두구두구...";
+            let count = 0;
+            const interval = setInterval(() => {
+                resultDiv.innerText = nameList[Math.floor(Math.random() * nameList.length)];
+                count++;
+                if (count > 10) {
+                    clearInterval(interval);
+                    const winner = nameList[Math.floor(Math.random() * nameList.length)];
+                    resultDiv.innerHTML = `🎊 당첨자: ${winner} 🎊`;
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
